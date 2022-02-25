@@ -1,4 +1,5 @@
 <?php
+namespace App;
 require_once("../functions.php");
 session_start();
 if ($_REQUEST['action'] == 'subtotal')

@@ -1,4 +1,5 @@
 <?php
+namespace App;
 include_once "Utility/functions.php";
 include_once "Utility/class/cart.php";
 session_start();

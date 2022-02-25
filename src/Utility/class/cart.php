@@ -1,4 +1,5 @@
 <?php
+namespace App;
 require_once("product.php");
 session_start();
 

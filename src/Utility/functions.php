@@ -1,5 +1,5 @@
 <?php
-
+namespace App;
 require_once("class/cart.php");
 require_once("class/product.php");
 

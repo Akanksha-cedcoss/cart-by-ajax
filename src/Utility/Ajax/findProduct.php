@@ -1,4 +1,5 @@
 <?php
+namespace App;
 require_once("../functions.php");
 //find product in products
 if ($_REQUEST['action'] == 'findindex') {
