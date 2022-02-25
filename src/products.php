@@ -1,10 +1,9 @@
-<?php session_start();
+<?php
+include_once "Utility/functions.php";
+include_once "Utility/class/cart.php";
+session_start();
 include "header.php";
-include "Ajax/functions.php";
-//  unset($_SESSION['cart']);
-//  unset($_SESSION['subtotal']);
-
-print_r($_SESSION['cart']);
+//unset($_SESSION['cart']);
 ?>
 
 <!DOCTYPE html>
@@ -20,7 +19,7 @@ print_r($_SESSION['cart']);
     <?php  ?>
     <div id="main">
         <div id="products">
-            <?php product_listing() ?>
+            <?php productListing() ?>
         </div>
     </div>
     <div id='cart'>

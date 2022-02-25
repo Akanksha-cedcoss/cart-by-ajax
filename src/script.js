@@ -1,7 +1,11 @@
 $(document).ready(function () {
+
+  /**
+   * load cart and products on page refresh
+   */
   $.ajax({
     type: "POST",
-    url: "Ajax/onLoad.php",
+    url: "Utility/Ajax/onLoad.php",
     data: { action: "showprevious" },
     dataType: "JSON",
     success: function (response) {
@@ -9,8 +13,33 @@ $(document).ready(function () {
       $.fn.updateCart(response);
     },
   });
-  //load cart
-  $.fn.loadCart = function (response) {
+  
+  /**
+   * add product into cart
+   */
+  $(document).on("click", ".add-to-cart", function (e) {
+    e.preventDefault();
+    $id = $(this).attr("data");
+    $.ajax({
+      url: "Utility/Ajax/addToCart.php",
+      method: "POST",
+      data: {
+        id: $id,
+        action: "addToCart",
+      },
+      dataType: "JSON",
+      success: function (response) {
+        $.fn.loadCart();
+        $.fn.updateCart(response);
+      },
+    });
+  });
+
+  /**
+   * load cart template dynamically
+   */
+  
+  $.fn.loadCart = function () {
     var Wrapperdiv = $("#cart");
     Wrapperdiv.append(
       '<div id="product_list"><table id="product-table"></table></div>'
@@ -27,12 +56,15 @@ $(document).ready(function () {
         "</tr>"
     );
   };
-  //delete product
+  
+  /**
+   * Delete product from cart
+   */
   $(document).on("click", ".delete", function (e) {
     e.preventDefault();
     $id = $(this).attr("id");
     $.ajax({
-      url: "Ajax/deleteProduct.php",
+      url: "Utility/Ajax/deleteProduct.php",
       method: "POST",
       data: {
         id: $id,
@@ -44,31 +76,18 @@ $(document).ready(function () {
       },
     });
   });
-  //add to cart
-  $(document).on("click", ".add-to-cart", function (e) {
-    $id = $(this).attr("data");
-    $.ajax({
-      url: "Ajax/addToCart.php",
-      method: "POST",
-      data: {
-        id: $id,
-        action: "addToCart",
-      },
-      dataType: "JSON",
-      success: function (response) {
-        $.fn.updateCart(response);
-      },
-    });
-  });
-  //update table data
+
+  /**
+   * update Products in cart
+   * @param {*} cart 
+   */
   $.fn.updateCart = function (cart) {
-    subtotal = 0;
     let table = $("#product-table");
     table.children("tr:not(:first)").remove();
     for (let i = 0; i < cart.length; i++) {
       //find product in product list
       $.ajax({
-        url: "Ajax/findProduct.php",
+        url: "Utility/Ajax/findProduct.php",
         method: "POST",
         data: {
           id: cart[i]["id"],
@@ -100,7 +119,7 @@ $(document).ready(function () {
       });
     }
     $.ajax({
-      url: "Ajax/subTotal.php",
+      url: "Utility/Ajax/subTotal.php",
       method: "POST",
       data: {
         action: "subtotal",
@@ -113,5 +132,7 @@ $(document).ready(function () {
       },
     });
   };
-  //end of file
+  /**
+   * end of file
+   */
 });
